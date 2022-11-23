@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     }
 
     @Override
+    @Transactional
     public void afterJob(JobExecution jobExecution){
         if (jobExecution.getStatus() == BatchStatus.COMPLETED){
             log.info("!!! JOB FINISHED! Time to verify the results");
@@ -56,7 +58,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
                 .stream()
                 .forEach(e -> {
                     Team team = teamData.get((String) e[0]);
-                    team.setTotalWins((long) e[1]);
+                    if(team != null) team.setTotalWins((long) e[1]);
                 });
 
         teamData.values().forEach(team -> {entityManager.persist(team);});
