@@ -22,7 +22,7 @@ export const TeamPage = () => {
     <div className="TeamPage">
       <h1>{team.teamName}</h1>
       <MatchDetailCard />
-      {team.matches.map(match => <MatchSmallCard />)}
+      {team.matches.map(match => <MatchSmallCard match={match} />)}
     </div>
   );
 }
