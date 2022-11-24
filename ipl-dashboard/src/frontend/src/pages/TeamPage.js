@@ -14,7 +14,7 @@ export const TeamPage = () => {
             setTeam(data);
         };
         fetchMatches();
-    }
+    },[]
   );
 
   return (
